@@ -81,8 +81,8 @@ checkpoint = ModelCheckpoint("unet_best_model.h5", monitor='val_loss', save_best
 early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
 
 # Train the model
-history = model.fit(train_dataset, validation_data=val_dataset,
-                    epochs=20, callbacks=[checkpoint, early_stopping])
+history = model.fit(train_dataset, validation_data=val_dataset, epochs=50, callbacks=[checkpoint, early_stopping])
+
 
 # Save final model
 model.save("unet_final_model.h5")

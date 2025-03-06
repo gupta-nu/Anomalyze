@@ -41,7 +41,7 @@ plt.title("Training Mask")
 plt.show()
 
 # 🔍 Step 3: Adjust Threshold for Better Visibility
-threshold = 0.3  # Lowering threshold to detect faint masks
+threshold = 0.2  # Lowering threshold to detect faint masks
 Y_pred_thresh = (Y_pred > threshold).astype(np.uint8)
 
 # Plot test results with adjusted threshold
