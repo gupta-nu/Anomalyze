@@ -2,6 +2,7 @@ import numpy as np
 import os
 import tensorflow as tf
 import matplotlib.pyplot as plt
+from tensorflow.keras.losses import binary_crossentropy
 
 # Load trained U-Net model
 model = tf.keras.models.load_model("unet_final_model.h5")
@@ -63,7 +64,6 @@ for i in range(5):
     plt.show()
 
 # 🔍 Step 4: Define Dice Loss for Better Training Stability
-from tensorflow.keras.losses import binary_crossentropy
 
 def dice_loss(y_true, y_pred):
     smooth = 1.0
