@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import os
 import cv2
 from sklearn.metrics import jaccard_score, precision_recall_curve
+from sklearn.metrics import confusion_matrix, roc_curve, auc
 
 # Load test images
 dataset_dir = "NT_DATA/preprocessed"
@@ -82,6 +83,51 @@ processed_dice, processed_iou = calculate_metrics(Y_test, postprocessed_preds)
 print(f"🏆 Optimal Threshold: {optimal_threshold:.4f}")
 print(f"📊 Original Dice: {original_dice:.4f} | Postprocessed Dice: {processed_dice:.4f}")
 print(f"📈 Original IoU: {original_iou:.4f} | Postprocessed IoU: {processed_iou:.4f}")
+# Convert to 1D arrays
+y_true = Y_test.flatten().astype(np.uint8)
+y_pred = postprocessed_preds.flatten().astype(np.uint8)
+
+# Calculate confusion matrix
+tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+sensitivity = tp / (tp + fn)
+specificity = tn / (tn + fp)
+precision = tp / (tp + fp)
+
+print("\n🔍 Clinical Metrics:")
+print(f"Sensitivity (Recall): {sensitivity:.4f}")
+print(f"Specificity: {specificity:.4f}")
+print(f"Precision: {precision:.4f}")
+
+# =============================================================================
+# Add this RIGHT AFTER the confusion matrix code
+# =============================================================================
+
+# ROC and Precision-Recall Curves
+fpr, tpr, _ = roc_curve(y_true, raw_preds.flatten())
+roc_auc = auc(fpr, tpr)
+
+precision_curve, recall_curve, _ = precision_recall_curve(y_true, raw_preds.flatten())
+
+# Plot and save
+plt.figure(figsize=(12, 5))
+plt.subplot(1, 2, 1)
+plt.plot(fpr, tpr, color='darkorange', lw=2, label=f'ROC (AUC = {roc_auc:.2f})')
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('ROC Curve')
+plt.legend(loc="lower right")
+
+plt.subplot(1, 2, 2)
+plt.plot(recall_curve, precision_curve, color='blue', lw=2, label='Precision-Recall')
+plt.xlabel('Recall')
+plt.ylabel('Precision')
+plt.title('Precision-Recall Curve')
+plt.legend(loc="upper right")
+
+plt.tight_layout()
+plt.savefig('performance_curves.png', dpi=300)
+plt.close()  # Important! Don't mix with other plots 
 
 # Enhanced visualization
 def visualize_predictions(X, y_true, raw, pred, postprocessed, index):
@@ -118,3 +164,13 @@ for idx in sample_indices:
         index=idx
     )
     print(f"Saved visualization for sample {idx} as visualization_{idx}.png")
+
+    # Add to evaluate_unet.py after visualization code
+plt.figure(figsize=(8,6))
+plt.subplot(131).imshow(X_test[0].squeeze(), cmap='gray')
+plt.title('Original')
+plt.subplot(132).imshow(Y_test[0].squeeze(), cmap='gray')
+plt.title('Ground Truth')
+plt.subplot(133).imshow(postprocessed_preds[0].squeeze(), cmap='gray')
+plt.title('Our Prediction')
+plt.savefig('comparison.png', dpi=300, bbox_inches='tight')

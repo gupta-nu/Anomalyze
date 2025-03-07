@@ -108,5 +108,12 @@ plt.title('Training Loss')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
-
+# Add these lines after your existing plotting code
+plt.figure(figsize=(8,4))
+plt.plot(history.history['loss'], label='Train Loss')
+plt.plot(history.history['val_loss'], label='Val Loss')
+plt.title('Training Loss Curve')
+plt.ylabel('Loss'), plt.xlabel('Epoch')
+plt.legend(), plt.grid(True)
+plt.savefig('training_curve.png', dpi=300, bbox_inches='tight')  # Saves the plot
 plt.show()
