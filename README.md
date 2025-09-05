@@ -1,10 +1,10 @@
 
 
-# EchoWomb
+# Anomalyze
 
 ## Overview
 
-**EchoWomb** is a deep learning framework for **automated nuchal translucency (NT) measurement** from fetal ultrasound scans acquired during the **11–14 week gestational window**. NT thickness is a clinically validated biomarker for early detection of **chromosomal abnormalities (e.g., Trisomy 21), congenital heart defects, and other structural anomalies**.
+**Anomalyze** is a deep learning framework for **automated nuchal translucency (NT) measurement** from fetal ultrasound scans acquired during the **11–14 week gestational window**. NT thickness is a clinically validated biomarker for early detection of **chromosomal abnormalities (e.g., Trisomy 21), congenital heart defects, and other structural anomalies**.
 
 Manual NT measurement is highly operator-dependent and subject to inter-observer variability. **EchoWomb standardizes this process through a fully automated pipeline**, integrating **segmentation, classification, and generative augmentation models** to achieve consistent, precise, and real-time NT assessment.
 
