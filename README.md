@@ -1,5 +1,5 @@
 
-# NT Fetal Anomaly Detection  
+# EchoWomb
 
 ## Overview  
 This project implements **deep learning-based NT measurement** from fetal ultrasound images to assist in anomaly detection. It employs **U-Net for segmentation** and **EfficientNet for classification**, integrating transformers and GANs for dataset augmentation and enhanced robustness.  
